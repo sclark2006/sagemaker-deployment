@@ -68,8 +68,28 @@ def train(model, train_loader, epochs, optimizer, loss_fn, device):
     """
     
     # TODO: Paste the train() method developed in the notebook here.
-
-    pass
+    for epoch in range(1, epochs + 1):
+        model.to(device).train()
+        total_loss = 0
+        for batch in train_loader:         
+            batch_X, batch_y = batch
+            
+            batch_X = batch_X.to(device)
+            batch_y = batch_y.to(device)
+            
+            # TODO: Complete this train method to train the model provided.
+            inputs = batch_X
+            labels = batch_y
+            
+            model.zero_grad()
+            output = model(inputs)
+            loss = loss_fn(output.sequeeze(), labels.float())
+            loss.backward()
+            
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 5)
+            optimizer.step()
+            total_loss += loss.data.item()
+        print("Epoch: {}, BCELoss: {}".format(epoch, total_loss / len(train_loader)))
 
 
 if __name__ == '__main__':
