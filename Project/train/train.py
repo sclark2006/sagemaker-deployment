@@ -83,7 +83,7 @@ def train(model, train_loader, epochs, optimizer, loss_fn, device):
             
             model.zero_grad()
             output = model(inputs)
-            loss = loss_fn(output.sequeeze(), labels.float())
+            loss = loss_fn(output.squeeze(), labels.float())
             loss.backward()
             
             torch.nn.utils.clip_grad_norm_(model.parameters(), 5)
